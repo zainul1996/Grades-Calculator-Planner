@@ -36,12 +36,15 @@
 			.sch-logo-border.clicked {
 				border: 1px solid red;
 				}
+			h2.row.header.target{
+				padding: 1rem;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="ui container">
 			<div id="courses" class="ui vertical segment">
-				<h1 class="ui header">GPA Calculator</h1>
+				<h1 class="ui header">GPA Planner</h1>
 				<h2 class="ui header">Pick Your School</h2>
 				<div class="ui grid">
 					<div ID="schools" class="row">
@@ -67,7 +70,7 @@
 				</div>
 			</div>
 			<div class="ui vertical segment">
-				<h3 class="ui header"> GPA and Total Credits Taken Thus Far (Optional)</h3>
+				<h3 id="optional" class="ui header">GPA and Total Credits Taken Thus Far (Optional)</h3>
 				<div class="ui grid">
 					<div class="row">
 						<div class="field">
@@ -89,13 +92,45 @@
 					</div>
 				</div>
 			</div>
-			<div class="ui vertical segment">
-				<button onclick="addModuleButtonClicked()" class="ui secondary button">
-				Add Module
-				</button>
-				<form onchange="calculateGPA()" onInput="calculateGPA()" class="ui form">
-				</form>
+
+			<div class="ui top attached tabular menu">
+			  <a class="active item cgpa" data-tab="first">Calculate cGPA</a>
+			  <a class="item target" data-tab="second">Calculate Target GPA</a>
 			</div>
+			<div class="ui bottom attached active tab segment" data-tab="first">
+			  
+				<div class="ui vertical segment">
+					<button onclick="addModuleButtonClicked()" class="ui secondary button">
+					Add Module
+					</button>
+					<form onchange="calculateGPA()" onInput="calculateGPA()" class="ui form">
+					</form>
+				</div>
+
+			</div>
+			<div class="ui bottom attached tab segment" data-tab="second">
+			  <div class="ui grid target">
+					<div class="row target">
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<input onInput="targetGPA()" type="text" class="target" maxlength="5" value="" id="nextGPA" placeholder="Target GPA">
+								<div class="ui basic label">
+									Targetted GPA
+								</div>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<input onInput="targetGPA()" type="text" class="target" maxlength="2" id="nextCred" placeholder="Total Credits">
+								<div class="ui basic label">
+									Next Sem Total Credits
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</body>
 	<script>
@@ -397,6 +432,9 @@
 		}
 
 		$('.ui.dropdown').dropdown();
+		$('.menu .item')
+		  .tab()
+		;
 
 		function calculateGPA(){
 			var moduleNames = [], moduleGrades = [], moduleCredits = []
@@ -442,6 +480,30 @@
 			
 			
 		};
+
+		function targetGPA(){
+			if(!Number.isNaN(parseFloat($('#prevGPA').val())) && !Number.isNaN(parseFloat($('#prevCred').val())) && !Number.isNaN(parseFloat($('#nextGPA').val())) && !Number.isNaN(parseFloat($('#nextCred').val()))){
+				prevGPA = parseFloat($('#prevGPA').val())
+				prevCred = parseFloat($('#prevCred').val())
+				nextGPA = parseFloat($('#nextGPA').val())
+				nextCred = parseFloat($('#nextCred').val())
+
+				var goalGPA = ((nextGPA*(prevCred+nextCred)) - (prevGPA*prevCred))/nextCred
+				$('h2.target').remove()
+				$('.grid.target').append(`<h2 class="ui row header target">What you need: `+goalGPA+`</h2>`)
+			}
+
+
+		}
+
+		$('.top.menu .target').tab({'onVisible':function(){
+			$('#optional').text('GPA and Total Credits Taken Thus Far (Required)')
+
+		}});
+
+		$('.top.menu .cgpa').tab({'onVisible':function(){
+			$('#optional').text('GPA and Total Credits Taken Thus Far (Optional)')
+		}});
 		
 		
 	</script>
