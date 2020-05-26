@@ -482,7 +482,7 @@
 				nextGPA = parseFloat($('#nextGPA').val())
 				nextCred = parseFloat($('#nextCred').val())
 
-				var goalGPA = ((nextGPA*(prevCred+nextCred)) - (prevGPA*prevCred))/nextCred
+				var goalGPA = parseFloat((((nextGPA*(prevCred+nextCred)) - (prevGPA*prevCred))/nextCred).toFixed(4))
 				$('h2.target').remove()
 				$('.grid.target').append(`<h2 class="ui row header target">What you need: `+goalGPA+`</h2>`)
 			}
