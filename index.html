@@ -75,18 +75,16 @@
 					<div class="row">
 						<div class="field">
 							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="prevGPA" class="ui label">GPA</label>
 								<input onInput="calculateGPA()" type="text" class="credit" maxlength="5" value="" id="prevGPA" placeholder="Enter GPA">
-								<div class="ui basic label">
-									GPA
-								</div>
+								
 							</div>
 						</div>
 						<div class="field">
 							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="prevCred" class="ui label">Total Credits</label>
 								<input onInput="calculateGPA()" type="text" class="credit" maxlength="2" id="prevCred" placeholder="Enter Total Credits">
-								<div class="ui basic label">
-									Total Credits
-								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -113,18 +111,16 @@
 					<div class="row target">
 						<div class="field">
 							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="nextGPA" class="ui black label">Targetted GPA</label>
 								<input onInput="targetGPA()" type="text" class="target" maxlength="5" value="" id="nextGPA" placeholder="Target GPA">
-								<div class="ui basic label">
-									Targetted GPA
-								</div>
+								
 							</div>
 						</div>
 						<div class="field">
 							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="nextCred" class="ui black label">Next Sem Total Credits</label>
 								<input onInput="targetGPA()" type="text" class="target" maxlength="2" id="nextCred" placeholder="Total Credits">
-								<div class="ui basic label">
-									Next Sem Total Credits
-								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -328,11 +324,9 @@
 							</div>
 						</div>	
 						<div class="field column">
-							<div class="ui right labeled input">
+							<div class="ui labeled input">
+								<label for="nextCred" class="ui black label">Credits</label>
 								<input type="text" class="credit" maxlength="4" value="5">
-								<div class="ui basic label">
-									credits
-								</div>
 							</div>
 						</div>
 					</div>`
