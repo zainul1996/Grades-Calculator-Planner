@@ -44,24 +44,47 @@
 				<h1 class="ui header">GPA Calculator</h1>
 				<h2 class="ui header">Pick Your School</h2>
 				<div class="ui grid">
-					<div ID="schools" class="doubling six column row">
-						<div class="column sch-logo-border" onclick="selectSchool(this)">
+					<div ID="schools" class="row">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
 							<img class="sch-logo" alt="NUS" src="img/NUS.png">
 						</div>
-						<div class="column sch-logo-border" onclick="selectSchool(this)">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
 							<img class="sch-logo" alt="NTU" src="img/NTU.png">
 						</div>
-						<div class="column sch-logo-border" onclick="selectSchool(this)">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
 							<img class="sch-logo" alt="SIT" src="img/SIT.png">
 						</div>
-						<div class="column sch-logo-border" onclick="selectSchool(this)">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
 							<img class="sch-logo" alt="SMU" src="img/SMU.jpg">
 						</div>
-						<div class="column sch-logo-border" onclick="selectSchool(this)">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
 							<img class="sch-logo" alt="SUSS" src="img/SUSS.png">
 						</div>
-						<div class="column sch-logo-border" onclick="selectSchool(this)">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
 							<img class="sch-logo" alt="SUTD" src="img/SUTD.jpg">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui vertical segment">
+				<h3 class="ui header"> GPA and Total Credits Taken Thus Far (Optional)</h3>
+				<div class="ui grid">
+					<div class="row">
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<input onInput="calculateGPA()" type="text" class="credit" maxlength="5" value="" id="prevGPA" placeholder="Enter GPA">
+								<div class="ui basic label">
+									GPA
+								</div>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<input onInput="calculateGPA()" type="text" class="credit" maxlength="2" id="prevCred" placeholder="Enter Total Credits">
+								<div class="ui basic label">
+									Total Credits
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -70,73 +93,7 @@
 				<button onclick="addModuleButtonClicked()" class="ui secondary button">
 				Add Module
 				</button>
-				<form onchange="calculateGPA()" class="ui form">
-					<!-- <div class="ui transparent input">
-						<input type="text" class="name" value="Edit Module Name">
-					</div>
-					<div class="ui two column grid">
-						<div class="field column">
-							<div class="ui fluid selection dropdown grade">
-								<input type="hidden" value="Select Grade">
-								<i class="dropdown icon"></i>
-								<div class="default text">Select Grade</div>
-								<div class="menu">
-									<div class="item" data-value="5.0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										A+
-									</div>
-									<div class="item" data-value="5.0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										A
-									</div>
-									<div class="item" data-value="4.5">
-										<img class="ui mini avatar image" src="img/grade.png">
-										A-
-									</div>
-									<div class="item" data-value="4.0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										B+
-									</div>
-									<div class="item" data-value="3.5">
-										<img class="ui mini avatar image" src="img/grade.png">
-										B
-									</div>
-									<div class="item" data-value="3.0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										B-
-									</div>
-									<div class="item" data-value="2.5">
-										<img class="ui mini avatar image" src="img/grade.png">
-										C+
-									</div>
-									<div class="item" data-value="2.0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										C
-									</div>
-									<div class="item" data-value="1.5">
-										<img class="ui mini avatar image" src="img/grade.png">
-										D+
-									</div>
-									<div class="item" data-value="1.0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										D
-									</div>
-									<div class="item" data-value="0">
-										<img class="ui mini avatar image" src="img/grade.png">
-										F
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="field column">
-							<div class="ui right labeled input">
-								<input type="text" class="credit" maxlength="4" value="5">
-								<div class="ui basic label computer only">
-									credits
-								</div>
-							</div>
-						</div>
-					</div> -->
+				<form onchange="calculateGPA()" onInput="calculateGPA()" class="ui form">
 				</form>
 			</div>
 		</div>
@@ -145,13 +102,13 @@
 
 		selectedSchool = "None"
 		var SITGradingTypes =  	`<div class="six column row">
-							<div class="column sch-logo-border" onclick="selectGrading(this)">
+							<div class="two wide computer five wide tablet column   sch-logo-border" onclick="selectGrading(this)">
 									<img class="sch-logo" alt="TUM" src="img/TUM.png">
 							</div>
-							<div class="column sch-logo-border" onclick="selectGrading(this)">
+							<div class="two wide computer five wide tablet column  sch-logo-border" onclick="selectGrading(this)">
 									<img class=".sch-logo" alt="DP" src="img/DigiPen.png">
 							</div>
-							<div class="column sch-logo-border" onclick="selectGrading(this)">
+							<div class="two wide computer five wide tablet column  sch-logo-border" onclick="selectGrading(this)">
 									<img class=".sch-logo" alt="SIT" src="img/SIT.png">
 							</div>
 								</div>`
@@ -440,6 +397,7 @@
 		}
 
 		$('.ui.dropdown').dropdown();
+
 		function calculateGPA(){
 			var moduleNames = [], moduleGrades = [], moduleCredits = []
 			let $form = $('.ui.form')
@@ -459,11 +417,29 @@
 			totalCredits = 0
 			$(currentResults).each(function(){
 				aggregate += this.grade * this.credit
-				totalCredits += parseInt(this.credit)
+				totalCredits += parseFloat(this.credit)
 			})
-			currentGPA = aggregate/totalCredits
+
+			prevGPA = 0
+			prevCred = 0
+			if(!Number.isNaN(parseFloat($('#prevGPA').val())) && !Number.isNaN(parseFloat($('#prevCred').val()))){
+				prevGPA = parseFloat($('#prevGPA').val())
+				prevCred = parseFloat($('#prevCred').val())
+				console.log(prevGPA)
+				console.log(prevCred)
+			}
+			
+
+
+			currentGPA = parseFloat(((aggregate+(prevGPA*prevCred))/(totalCredits+prevCred)).toFixed(4))
 			$('.updatedGPA').remove()
-			$('.ui.form').append(`<h2 class="ui header updatedGPA">Your GPA: `+currentGPA+`</h2>`)
+			if(Number.isNaN(currentGPA)){
+				$('.ui.form').append(`<h2 class="ui header updatedGPA">Invalid Entry !</h2><p class="updatedGPA">Maybe you left a blank somewhere</p>`)
+			}else{
+				$('.ui.form').append(`<h2 class="ui header updatedGPA">Your GPA: `+currentGPA+`</h2>`)
+			}
+
+			
 			
 		};
 		
