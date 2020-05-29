@@ -458,7 +458,10 @@
 						
 					}
 				}else{
-					alertFillPreviousGrade()
+					if(!($("#prevGPA").is(":focus")) && !($("#prevCred").is(":focus"))){
+						alertFillPreviousGrade()
+					}
+					
 				}
 			}
 
