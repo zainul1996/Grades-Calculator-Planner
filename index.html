@@ -475,17 +475,25 @@
 			
 		};
 
-		function targetGPA(){
-			if(!Number.isNaN(parseFloat($('#prevGPA').val())) && !Number.isNaN(parseFloat($('#prevCred').val())) && !Number.isNaN(parseFloat($('#nextGPA').val())) && !Number.isNaN(parseFloat($('#nextCred').val()))){
-				prevGPA = parseFloat($('#prevGPA').val())
-				prevCred = parseFloat($('#prevCred').val())
-				nextGPA = parseFloat($('#nextGPA').val())
-				nextCred = parseFloat($('#nextCred').val())
+		function targetGPA(){	
+			if($('.clicked').length){
+				if(!Number.isNaN(parseFloat($('#prevGPA').val())) && !Number.isNaN(parseFloat($('#prevCred').val())) && !Number.isNaN(parseFloat($('#nextGPA').val())) && !Number.isNaN(parseFloat($('#nextCred').val()))){
+						prevGPA = parseFloat($('#prevGPA').val())
+						prevCred = parseFloat($('#prevCred').val())
+						nextGPA = parseFloat($('#nextGPA').val())
+						nextCred = parseFloat($('#nextCred').val())
 
-				var goalGPA = parseFloat((((nextGPA*(prevCred+nextCred)) - (prevGPA*prevCred))/nextCred).toFixed(4))
-				$('h2.target').remove()
-				$('.grid.target').append(`<h2 class="ui row header target">What you need: `+goalGPA+`</h2>`)
+						var goalGPA = parseFloat((((nextGPA*(prevCred+nextCred)) - (prevGPA*prevCred))/nextCred).toFixed(4))
+						$('h2.target').remove()
+						if(goalGPA > 5)
+						$('.grid.target').append(`<h2 class="ui row header target">What you need: `+goalGPA+`</h2>`)
+					}
+			}else{
+				$('h2,#optional').addClass('animate__animated animate__headShake')
+
+				setTimeout(function(){$('h2, #optional').removeClass('animate__animated animate__headShake')},400)	
 			}
+
 
 
 		}
