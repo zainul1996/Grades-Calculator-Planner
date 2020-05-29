@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GPA Calculator</title>
+		<meta name="viewport" content="width=device-width, maximum-scale=1">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+		<style type="text/css">
+			.ui.form {
+				padding-top: 1rem;
+				padding-right:1rem;
+			}
+			.ui.grid{
+				padding-top: 0.5rem
+			}
+			.ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg{
+				height: 60px;
+				width: auto;
+				padding-right: 1rem;
+				padding-left: 1rem;
+			}
+			.sch-logo-border:hover {
+			box-sizing: border-box;
+				display: inline-block;
+				border: 1px solid #CCC;
+				padding: 10px 10px;
+			}
+			.sch-logo-border {
+			box-sizing: border-box;
+				display: inline-block;
+				border: 0px solid #CCC;
+				padding: 10px 10px;
+				}
+			.sch-logo-border.clicked {
+				border: 1px solid red;
+				}
+			h2.row.header.target{
+				padding: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="ui container">
+			<div id="courses" class="ui vertical segment">
+				<h1 class="ui header">GPA Planner</h1>
+				<h2 class="ui header">Pick Your School</h2>
+				<div class="ui grid">
+					<div ID="schools" class="row">
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
+							<img class="sch-logo" alt="NUS" src="img/NUS.png">
+						</div>
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
+							<img class="sch-logo" alt="NTU" src="img/NTU.png">
+						</div>
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
+							<img class="sch-logo" alt="SIT" src="img/SIT.png">
+						</div>
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
+							<img class="sch-logo" alt="SMU" src="img/SMU.jpg">
+						</div>
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
+							<img class="sch-logo" alt="SUSS" src="img/SUSS.png">
+						</div>
+						<div class="two wide computer five wide tablet column sch-logo-border" onclick="selectSchool(this)">
+							<img class="sch-logo" alt="SUTD" src="img/SUTD.jpg">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui vertical segment">
+				<h3 id="optional" class="ui header">GPA and Total Credits Taken Thus Far (Optional)</h3>
+				<div class="ui grid">
+					<div class="row">
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="prevGPA" class="ui label">GPA</label>
+								<input onInput="calculateGPA()" type="text" class="credit" maxlength="5" value="" id="prevGPA" placeholder="Enter GPA">
+								
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="prevCred" class="ui label">Total Credits</label>
+								<input onInput="calculateGPA()" type="text" class="credit" maxlength="2" id="prevCred" placeholder="Enter Total Credits">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="ui top attached tabular menu">
+			  <a class="active item cgpa" data-tab="first">Calculate cGPA</a>
+			  <a class="item target" data-tab="second">Calculate Target GPA</a>
+			</div>
+			<div class="ui bottom attached active tab segment" data-tab="first">
+			  
+				<div class="ui vertical segment">
+					<button onclick="addModuleButtonClicked()" class="ui secondary button">
+					Add Module
+					</button>
+					<form onchange="calculateGPA()" onInput="calculateGPA()" class="ui form">
+					</form>
+				</div>
+
+			</div>
+			<div class="ui bottom attached tab segment" data-tab="second">
+			  <div class="ui grid target">
+					<div class="row target">
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="nextGPA" class="ui black label">Targetted GPA</label>
+								<input onInput="targetGPA()" type="text" class="target" maxlength="5" value="" id="nextGPA" placeholder="Target GPA">
+								
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui left floated column labeled input" style="padding: 0.5em;">
+								<label for="nextCred" class="ui black label">Next Sem Total Credits</label>
+								<input onInput="targetGPA()" type="text" class="target" maxlength="2" id="nextCred" placeholder="Total Credits">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+	<script>
+
+		selectedSchool = "None"
+		var SITGradingTypes =  	`<div class="six column row">
+							<div class="two wide computer five wide tablet column   sch-logo-border" onclick="selectGrading(this)">
+									<img class="sch-logo" alt="TUM" src="img/TUM.png">
+							</div>
+							<div class="two wide computer five wide tablet column  sch-logo-border" onclick="selectGrading(this)">
+									<img class=".sch-logo" alt="DP" src="img/DigiPen.png">
+							</div>
+							<div class="two wide computer five wide tablet column  sch-logo-border" onclick="selectGrading(this)">
+									<img class=".sch-logo" alt="SIT" src="img/SIT.png">
+							</div>
+								</div>`
+
+		var NUSGrades =	`<div class="item" data-value="5.0">
+								<img class="ui mini avatar image" src="img/grade.png">
+								A+
+						</div>
+						<div class="item" data-value="5.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A
+						</div>
+						<div class="item" data-value="4.5">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A-
+						</div>
+						<div class="item" data-value="4.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B+
+						</div>
+						<div class="item" data-value="3.5">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B
+						</div>
+						<div class="item" data-value="3.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B-
+						</div>
+						<div class="item" data-value="2.5">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C+
+						</div>
+						<div class="item" data-value="2.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C
+						</div>
+						<div class="item" data-value="1.5">
+							<img class="ui mini avatar image" src="img/grade.png">
+							D+
+						</div>
+						<div class="item" data-value="1.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							D
+						</div>
+						<div class="item" data-value="0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							F
+						</div>`
+
+		var SMUGrades =	`<div class="item" data-value="4.3">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A+
+						</div>
+						<div class="item" data-value="4.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A
+						</div>
+						<div class="item" data-value="3.7">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A-
+						</div>
+						<div class="item" data-value="3.3">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B+
+						</div>
+						<div class="item" data-value="3.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B
+						</div>
+						<div class="item" data-value="2.7">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B-
+						</div>
+						<div class="item" data-value="2.4">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C+
+						</div>
+						<div class="item" data-value="2.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C
+						</div>
+						<div class="item" data-value="1.7">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C-
+						</div>
+						<div class="item" data-value="1.3">
+							<img class="ui mini avatar image" src="img/grade.png">
+							D+
+						</div>
+						<div class="item" data-value="1.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							D
+						</div>
+						<div class="item" data-value="0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							F
+						</div>`
+		var DPGrades =	`<div class="item" data-value="4.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A
+						</div>
+						<div class="item" data-value="3.7">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A-
+						</div>
+						<div class="item" data-value="3.3">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B+
+						</div>
+						<div class="item" data-value="3.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B
+						</div>
+						<div class="item" data-value="2.7">
+							<img class="ui mini avatar image" src="img/grade.png">
+							B-
+						</div>
+						<div class="item" data-value="2.3">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C+
+						</div>
+						<div class="item" data-value="2.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C
+						</div>
+						<div class="item" data-value="1.7">
+							<img class="ui mini avatar image" src="img/grade.png">
+							C-
+						</div>
+						<div class="item" data-value="1.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							D
+						</div>
+						<div class="item" data-value="0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							F
+						</div>`
+
+		var SUTDGrades =	`<div class="item" data-value="5.0">
+							<img class="ui mini avatar image" src="img/grade.png">
+							A
+							</div>
+							<div class="item" data-value="4.0">
+								<img class="ui mini avatar image" src="img/grade.png">
+								B
+							</div>
+							<div class="item" data-value="3.0">
+								<img class="ui mini avatar image" src="img/grade.png">
+								C
+							</div>
+							<div class="item" data-value="2.0">
+								<img class="ui mini avatar image" src="img/grade.png">
+								D
+							</div>
+							<div class="item" data-value="0">
+								<img class="ui mini avatar image" src="img/grade.png">
+								F
+							</div>`
+
+		function insertGrading(gradeOptions){
+			$('#courses').append(`<h2 id="grading-title" class="ui header animate__animated  animate__fadeIn">Which Grading System</h2>
+				<div id="grading" class="ui grid animate__animated  animate__fadeIn">
+						`+gradeOptions+`
+				</div>`)
+		}
+
+		function addModuleField(gradingTemplate){
+			
+				$moduleFields = `
+					<div class="ui transparent input">
+						<input type="text" class="name" value="Edit Module Name">
+					</div>
+					<div class="ui two column grid">
+						<div class="field column">
+							<div class="ui fluid selection dropdown grade">
+								<input type="hidden" value="3.0">
+								<i class="dropdown icon"></i>
+								<div class="default text">Select Grade</div>
+								<div class="menu">
+									`+gradingTemplate+`
+								</div>
+							</div>
+						</div>	
+						<div class="field column">
+							<div class="ui labeled input">
+								<label for="nextCred" class="ui black label">Credits</label>
+								<input type="text" class="credit" maxlength="4" value="5">
+							</div>
+						</div>
+					</div>`
+					$('.ui.form').append($moduleFields)
+					calculateGPA()
+			
+		}
+
+
+		function addModuleButtonClicked(){
+			if($('.clicked').length){
+				if(selectedSchool == "NUS" || selectedSchool == "NTU" || selectedSchool == "SUSS" || selectedSchool == "SIT"){
+					addModuleField(NUSGrades)
+				}else if(selectedSchool == "SUTD"){
+					addModuleField(SUTDGrades)
+				}else if(selectedSchool == "SMU"){
+					addModuleField(SMUGrades)
+				}else if(selectedSchool == "TUM"){
+					addModuleField(NUSGrades)
+				}else if(selectedSchool == "DP"){
+					addModuleField(DPGrades)
+				}
+			}else{
+				$('h2').addClass('animate__animated animate__headShake')
+				setTimeout(function(){$('h2').removeClass('animate__animated animate__headShake')},400)
+			}
+			
+		}
+
+		function removeGrading(){
+			$('#grading-title, #grading').addClass('animate__zoomOut')
+			$('#grading-title, #grading').remove()
+		}
+
+
+
+		function selectSchool(e){
+			if(!($(e).hasClass('clicked'))){
+				if($('#grading-title').length){
+					removeGrading()
+				}
+				selectedSchool = $(e).children('img').attr('alt')
+				if(selectedSchool=="SIT"){
+					setTimeout(insertGrading(SITGradingTypes),200)
+				}
+				else if(selectedSchool=="NUS"){
+					// Do nothing for now
+					$('.ui.form').children().remove()
+					addModuleField(NUSGrades)
+				}
+				else if(selectedSchool=="NTU"){
+					// Do nothing for now
+					$('.ui.form').children().remove()
+					addModuleField(NUSGrades)
+				}
+				else if(selectedSchool=="SUTD"){
+					// Do nothing for now
+					$('.ui.form').children().remove()
+					addModuleField(SUTDGrades)
+				}
+				else if(selectedSchool=="SUSS"){
+					// Do nothing for now
+					$('.ui.form').children().remove()
+					addModuleField(NUSGrades)
+				}
+				else if(selectedSchool=="SMU"){
+					// Do nothing for now
+					$('.ui.form').children().remove()
+					addModuleField(SMUGrades)
+				}
+				$('#schools').children().removeClass('clicked')
+				$(e).addClass('clicked')
+
+			}	
+		}
+		function selectGrading(e){
+			if(!($(e).hasClass('clicked'))){
+				$('#grading').children().children().removeClass('clicked')
+				$(e).addClass('clicked')
+			}
+			selectedSchool = $(e).children('img').attr('alt')
+			if(selectedSchool=="SIT"){
+				// Do nothing for now
+				$('.ui.form').children().remove()
+				addModuleField(NUSGrades)
+			}
+			else if(selectedSchool=="TUM"){
+				// Do nothing for now
+				$('.ui.form').children().remove()
+				addModuleField(NUSGrades)
+			}
+			else if(selectedSchool=="DP"){
+				// Do nothing for now
+				$('.ui.form').children().remove()
+				addModuleField(DPGrades)
+			}
+		}
+
+		$('.ui.dropdown').dropdown();
+		$('.menu .item')
+		  .tab()
+		;
+
+		function calculateGPA(){
+			var moduleNames = [], moduleGrades = [], moduleCredits = []
+			let $form = $('.ui.form')
+			$form.find('.name').each(function () {
+				moduleNames.push($(this).val());
+			});
+			$form.find('.grade').each(function(){
+				moduleGrades.push($(this).dropdown('get value'));
+			})
+			$form.find('.credit').each(function(){
+				moduleCredits.push($(this).val());
+			})
+			currentResults = moduleNames.map( function(x, i){
+			return {"name": x, "grade": moduleGrades[i], "credit": moduleCredits[i]}
+			}.bind(this));
+			aggregate = 0
+			totalCredits = 0
+			$(currentResults).each(function(){
+				aggregate += this.grade * this.credit
+				totalCredits += parseFloat(this.credit)
+			})
+
+			prevGPA = 0
+			prevCred = 0
+			if(!Number.isNaN(parseFloat($('#prevGPA').val())) && !Number.isNaN(parseFloat($('#prevCred').val()))){
+				prevGPA = parseFloat($('#prevGPA').val())
+				prevCred = parseFloat($('#prevCred').val())
+				console.log(prevGPA)
+				console.log(prevCred)
+			}
+			
+
+
+			currentGPA = parseFloat(((aggregate+(prevGPA*prevCred))/(totalCredits+prevCred)).toFixed(4))
+			$('.updatedGPA').remove()
+			if(Number.isNaN(currentGPA)){
+				$('.ui.form').append(`<h2 class="ui header updatedGPA">Invalid Entry !</h2><p class="updatedGPA">Maybe you left a blank somewhere</p>`)
+			}else{
+				$('.ui.form').append(`<h2 class="ui header updatedGPA">Your GPA: `+currentGPA+`</h2>`)
+			}
+
+			
+			
+		};
+
+		function targetGPA(){	
+			if($('.clicked').length){
+				if(!Number.isNaN(parseFloat($('#prevGPA').val())) && !Number.isNaN(parseFloat($('#prevCred').val())) && !Number.isNaN(parseFloat($('#nextGPA').val())) && !Number.isNaN(parseFloat($('#nextCred').val()))){
+						prevGPA = parseFloat($('#prevGPA').val())
+						prevCred = parseFloat($('#prevCred').val())
+						nextGPA = parseFloat($('#nextGPA').val())
+						nextCred = parseFloat($('#nextCred').val())
+
+						var goalGPA = parseFloat((((nextGPA*(prevCred+nextCred)) - (prevGPA*prevCred))/nextCred).toFixed(4))
+						$('h2.target').remove()
+						if(goalGPA > 5)
+						$('.grid.target').append(`<h2 class="ui row header target">What you need: `+goalGPA+`</h2>`)
+					}
+			}else{
+				$('h2,#optional').addClass('animate__animated animate__headShake')
+
+				setTimeout(function(){$('h2, #optional').removeClass('animate__animated animate__headShake')},400)	
+			}
+
+
+
+		}
+
+		$('.top.menu .target').tab({'onVisible':function(){
+			$('#optional').text('GPA and Total Credits Taken Thus Far (Required)')
+
+		}});
+
+		$('.top.menu .cgpa').tab({'onVisible':function(){
+			$('#optional').text('GPA and Total Credits Taken Thus Far (Optional)')
+		}});
+		
+		
+	</script>
+</html>
