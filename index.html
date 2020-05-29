@@ -39,6 +39,9 @@
 			h2.row.header.target{
 				padding: 1rem;
 			}
+			#optional-title{
+				display: inline-block;
+			}
 		</style>
 	</head>
 	<body>
@@ -74,6 +77,8 @@
 			</div>
 			<div class="ui vertical segment">
 				<h3 id="optional-title" class="ui header">GPA and Total Credits Taken Thus Far (Optional)</h3>
+				<i class="question circle large icon" data-position="right center" data-html="<p>GPA = Your current cGPA</p><p>Credits = Sum of all your past module credits</p>">
+				</i>
 				<div class="ui grid" id="optionals">
 					<div class="row">
 						<div class="field">
@@ -509,6 +514,10 @@
 		$.getJSON('https://api.jsonbin.io/b/5ed0171f79382f568bceb99d/3', function(data) {         
 		   	jsonData = data
 		})
+
+
+		$('.question')
+		  .popup();
 	});
 	</script>
 </html>
