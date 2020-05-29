@@ -263,50 +263,66 @@
 	}
 
 	function calculateGPA(){
-		let moduleNames = [], moduleGrades = [], moduleCredits = []
-		let $form = $('.ui.form')
-		$form.find('.name').each(function () {
-			moduleNames.push($(this).val());
-		});
-		$form.find('.grade').each(function(){
-			moduleGrades.push($(this).dropdown('get value'));
-		})
-		$form.find('.credit').each(function(){
-			moduleCredits.push($(this).val());
-		})
-		currentResults = moduleNames.map(function(x, i){
-			return {
-				"name": x,
-				"grade": moduleGrades[i],
-				"credit": moduleCredits[i]
+
+		if(isSchoolSelected()){
+			let selectedOption = getSchoolSelected()
+			if(selectedOption == "SIT" || selectedOption == "Poly"){
+				if(isGradingSelected()){
+					selectedOption = getGradingSelected()
+				}else{
+					selectedOption = null
+					alertPickGrade()
+				}
 			}
-		}.bind(this));
+			if(selectedOption){
+				let moduleNames = [], moduleGrades = [], moduleCredits = []
+				let $form = $('.ui.form')
+				$form.find('.name').each(function () {
+					moduleNames.push($(this).val());
+				});
+				$form.find('.grade').each(function(){
+					moduleGrades.push($(this).dropdown('get value'));
+				})
+				$form.find('.credit').each(function(){
+					moduleCredits.push($(this).val());
+				})
+				currentResults = moduleNames.map(function(x, i){
+					return {
+						"name": x,
+						"grade": moduleGrades[i],
+						"credit": moduleCredits[i]
+					}
+				}.bind(this));
 
-		aggregate = 0
-		totalCredits = 0
-		$(currentResults).each(function(){
-			aggregate += this.grade * this.credit
-			totalCredits += parseFloat(this.credit)
-		})
+				aggregate = 0
+				totalCredits = 0
+				$(currentResults).each(function(){
+					aggregate += this.grade * this.credit
+					totalCredits += parseFloat(this.credit)
+				})
 
-		prevGPA = 0
-		prevCred = 0
-		if(isPreviousGradeValid() && isPreviousGradeFilled()){
-			previousGrade = getPreviousGrade()
-			prevGPA = previousGrade.GPA
-			prevCred = previousGrade.Credits
-		}
-		
-		currentGPA = parseFloat(((aggregate+(prevGPA*prevCred))/(totalCredits+prevCred)).toFixed(4))
+				prevGPA = 0
+				prevCred = 0
+				if(isPreviousGradeValid() && isPreviousGradeFilled()){
+					previousGrade = getPreviousGrade()
+					prevGPA = previousGrade.GPA
+					prevCred = previousGrade.Credits
+				}
+				
+				currentGPA = parseFloat(((aggregate+(prevGPA*prevCred))/(totalCredits+prevCred)).toFixed(4))
 
-		$('.updatedGPA').remove()
-		if(Number.isNaN(currentGPA)){
-			$('.ui.form').append(`<h2 class="ui header updatedGPA">Invalid Entry !</h2><p class="updatedGPA">Maybe you left a blank somewhere</p>`)
+				$('.updatedGPA').remove()
+				if(Number.isNaN(currentGPA)){
+					$('.ui.form').append(`<h2 class="ui header updatedGPA">Invalid Entry !</h2><p class="updatedGPA">Maybe you left a blank somewhere</p>`)
+				}else{
+					$('.ui.form').append(`<h2 class="ui header updatedGPA">Your GPA: `+currentGPA+`</h2>`)
+				}
+			}
+
 		}else{
-			$('.ui.form').append(`<h2 class="ui header updatedGPA">Your GPA: `+currentGPA+`</h2>`)
+			alertPickSchool()
 		}
 
-		
 		
 	};
 
