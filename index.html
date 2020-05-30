@@ -42,10 +42,26 @@
 			#optional-title{
 				display: inline-block;
 			}
+			body {
+			  display: flex;
+			  min-height: 100vh;
+			  flex-direction: column;
+			}
+
+			.main {
+			  flex: 1;
+			}
+			.ui.link.list.list .active.item, .ui.link.list.list .active.item a:not(.ui) {
+				color: rgba(255,255,255,.5);
+			}
+
+			.footer{
+				padding-bottom: 2em !important;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="ui container">
+		<div class="ui main container">
 			<div id="courses" class="ui vertical segment">
 				<h1 class="ui header">GPA Planner</h1>
 				<h2 id="school-title" class="ui header">Pick Your School</h2>
@@ -135,6 +151,54 @@
 				</div>
 			</div>
 
+		</div>
+		<div class="ui inverted vertical footer segment">
+		    <div class="ui center aligned container">
+		      <div class="ui stackable inverted divided grid">
+		        <div class="five wide column">
+		          <h4 class="ui inverted header">Schools</h4>
+		          <div class="ui inverted link list">
+		            <div class="ui inverted accordion">
+				    	<div class="ui item title">
+				      		<i class="dropdown icon"></i>
+				      		Universities
+				    	</div>
+				    	<div class="ui content inverted link list">
+				      		<a href="https://www.singaporetech.edu.sg" class="transition hidden item">Singapore Institute of Technology</a>
+				      		<a href="http://www.nus.edu.sg" class="transition hidden item">National University of Singapore</a>
+				      		<a href="https://www.ntu.edu.sg" class="transition hidden item">Nanyang Technological University</a>
+				      		<a href="https://www.smu.edu.sg" class="transition hidden item">Singapore Management University</a>
+				      		<a href="http://sutd.edu.sg" class="transition hidden item">Singapore University of Technology and Design</a>
+				      		<a href="http://suss.edu.sg" class="transition hidden item">Singapore Univeristy of Social Sciences</a>
+				    	</div>
+					</div>
+					<div class="ui inverted accordion">
+				    	<div class="ui item title">
+				      		<i class="dropdown icon"></i>
+				      		Polytechnics
+				    	</div>
+				    	<div class="ui content inverted link list">
+				      		<a href="http://sp.edu.sg" class="transition hidden item">Singapore Polytechnic</a>
+				      		<a href="http://www.np.edu.sg" class="transition hidden item">Ngee Ann Polytechnic</a>
+				      		<a href="http://tp.edu.sg" class="transition hidden item">Temasek Polytechnic</a>
+				      		<a href="http://nyp.edu.sg" class="transition hidden item">Nanyang Polytechnic</a>
+				      		<a href="http://rp.edu.sg" class="transition hidden item">Republic Polytechnic</a>
+				    	</div>
+					</div>
+		          </div>
+		        </div>
+		        <div class="four wide column">
+		          <h4 class="ui inverted header">More Information</h4>
+		          <div class="ui inverted link list">
+		            <a href="#" class="item">GPA System</a>
+		          </div>
+		        </div>
+		        <div class="seven wide column">
+		          <h4 class="ui inverted header">Developed by</h4>
+		          <p>Zainul</p>
+		        </div>
+		      </div>
+		    </div>
 		</div>
 	</body>
 	<script>
@@ -518,6 +582,10 @@
 
 		$('.question')
 		  .popup();
+
+	 	$('.ui.accordion')
+		  .accordion()
+		;
 	});
 	</script>
 </html>
